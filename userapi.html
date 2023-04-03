@@ -1,0 +1,80 @@
+<style>
+    .col-xl-3{
+        border:solid black 2px;
+    }
+    img{
+        height: 400px;
+        width: 400px;
+        display: cover;
+    }
+    
+</style>
+
+
+
+
+<body>
+<div class="container">
+    <div class="row" id="abc">
+
+    </div>
+</div>
+    
+</body>
+<script>
+let p1 = fetch('https://api.escuelajs.co/api/v1/users');
+
+    p1.then((para1)=>{
+       return para1.json();
+    }).then((para2)=>{
+        console.log(para2);
+
+        para2.forEach((iterator)=>{
+
+            console.log(iterator);
+
+            var div = document.createElement('div');
+            div.className = "col-xl-3 text-center";
+
+            var img = document.createElement('img');
+            img.src = iterator.avatar;
+            img.className = "img-fluid";
+
+            // var identity = document.createElement('h6');
+            // identity.innerHTML = iterator.id;
+
+            var username = document.createElement('h2');
+            username.innerHTML = iterator.name;
+
+            var mail = document.createElement('h3');
+            mail.innerHTML = iterator.email;
+
+            var pass = document.createElement('h3');
+            pass.innerHTML = iterator.password;
+
+
+            var position = document.createElement('h4');
+            position.innerHTML = iterator.role;
+
+            div.append(img);
+            div.append(username);
+            div.append(position);
+            div.append(mail);
+            div.append(pass);
+            // div.append(identity);
+
+
+            document.getElementById("abc").append(div);
+
+
+          
+
+        })
+      
+    })
+
+    // console.log(p1);
+
+  
+
+</script>

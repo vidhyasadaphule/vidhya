@@ -1,0 +1,83 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+<p>
+
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos incidunt iusto in assumenda esse hic veniam, quisquam amet blanditiis. Voluptates veritatis consequuntur natus facilis modi velit molestias praesentium. Fugiat, tenetur.
+</p>
+
+<button>Enter</button>
+
+<div class="container" >
+    <div class="row" id="xyz">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum distinctio recusandae, tempore doloribus, ipsum incidunt odio vitae magni dicta eligendi maxime voluptas, magnam minima fuga. Assumenda, quis impedit? Corrupti, sed.
+    </div>
+</div>
+
+<script>
+    document.querySelector('button').onclick = function(){
+        var rec = new XMLHttpRequest();
+        console.log(typeof rec);
+        console.log(rec);
+
+        console.log(rec.readyState);
+        //0 ==> There is no request initialized by user 
+
+        document.getElementById('xyz').innerHTML='';
+
+        rec.onreadystatechange = function(){
+            console.log("Within On Ready State Change");
+            console.log(rec.readyState , rec.status);
+
+            if(rec.readyState==4 &&  rec.status==200){
+                console.log(typeof rec.responseText);
+                console.log(rec.responseText);
+
+                var ans = JSON.parse(rec.responseText);//json dtring to javascrit object
+                console.log(ans);
+
+                ans.forEach(obj => {
+                    console.log(obj);
+
+                    var div = document.createElement('div');
+                    div.className = "col-xl-3 text-center";
+
+                    var img = document.createElement('img');
+                    img.src = obj.image;
+                    img.className = "img-fluid";
+
+                    var h2 = document.createElement('h2');
+                    h2.innerHTML = obj.id;
+
+                    var h3 = document.createElement('h6');
+                    h3.innerHTML = obj.creationAt;
+
+                    var h4 = document.createElement('h6');
+                    h4.innerHTML = obj.updatedAt;
+
+                    var p = document.createElement('h2');
+                    p.innerHTML = obj.name;
+
+                    div.append(img);
+                    div.append(h2);
+                    div.append(p);
+                    div.append(h4);
+                    div.append(h3);
+
+                    
+                    document.getElementById('xyz').append(div);
+
+                });
+            }
+            else if(rec.readyState==4 &&  rec.status==404){
+                document.getElementById("xyz").innerHTML = "Something Went Wrong"
+            }
+
+        }
+
+
+        //1===> Request Has been Setup
+        rec.open('GET',"https://api.escuelajs.co/api/v1/categories" , true);
+        // 2===> Request has been sent to server
+        rec.send();
+    }
+</script>
